@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Christy Dunlop Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Christy Dunlop Portfolio</h1>
+    </header>
+    <main>
+        <section>
+            <h2>About Me</h2>
+            <p>I am a Computer Science graduate from the University of Sussex. I have a passion for problem solving and mathematics.</p>
+        </section>
+        <section>
+            <h2>Projects</h2>
+            <div class="project">
+                <h3>Visual Nondeterministic-Finite-Automaton Builder And Simulator</h3>
+                <p>
+				The goal of this project was to make a simulator to simulate nondeterministic finite automata.
+				The purpose of such a simulator is for users to educate themselves with the workings of NFA and to help visualise 
+				how an input will pass through such a automata. With a basic knowledge of computation knowing about lexical analysis,
+				which is the first phase of a compiler where it reads an input and regular expressions, which are the languages accepted by the automata.
+				Due to time limitations not all features were able to be implimented.
+				</p>
+            </div>
+            <div class="project">
+                <h3>API feture and User</h3>
+                <p>A Project that fetches and Uses some API.</p>
+            </div>
+        </section>
+        <section>
+            <h2>Contact</h2>
+            <p>
+				<a href="mailto:christydunlop96@gmail.com" class="button">Email Me</a>
+				<a href="https://github.com" class="button">GitHub</a>
+			</p>
+        </section>
+    </main>
+    <footer>
+        &copy; 2024 Christy Dunlop
+    </footer>
+</body>
+</html>
