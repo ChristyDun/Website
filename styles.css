@@ -1,0 +1,277 @@
+:root {
+    color-scheme: light;
+    --blue: #7292b8;
+    --blue-dark: #456889;
+    --blue-light: #e8eef5;
+    --page: #bacce0;
+    --surface: #f8fafc;
+    --text: #243447;
+    --muted: #536579;
+    --border: #d5dfeb;
+    --shadow: 0 8px 24px rgba(45, 68, 93, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: var(--page);
+    color: var(--text);
+    font-family: "Open Sans", "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+header {
+    padding: 32px 24px;
+    background-color: var(--blue);
+    color: #fff;
+    text-align: center;
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.25;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    letter-spacing: -0.035em;
+}
+
+main {
+    width: min(100% - 40px, 960px);
+    margin: 36px auto;
+    padding: 0;
+}
+
+section {
+    margin-bottom: 24px;
+    padding: 28px 32px;
+    border: 1px solid rgba(69, 104, 137, 0.12);
+    border-radius: 12px;
+    background-color: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+h2 {
+    margin: 0 0 16px;
+    color: var(--blue-dark);
+    font-size: 1.45rem;
+    letter-spacing: -0.02em;
+}
+
+p {
+    margin: 0 0 16px;
+    color: var(--muted);
+}
+
+.project {
+    margin-bottom: 16px;
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background-color: #fff;
+}
+
+.project:last-child {
+    margin-bottom: 0;
+}
+
+.project h3 {
+    margin: 0 0 10px;
+    font-size: 1.12rem;
+}
+
+.project p {
+    margin-bottom: 14px;
+}
+
+a {
+    color: var(--blue-dark);
+    font-weight: 600;
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    color: #304f6d;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(69, 104, 137, 0.45);
+    outline-offset: 2px;
+}
+
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+input {
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #c6d2df;
+    border-radius: 6px;
+    background-color: #fff;
+    color: var(--text);
+    font: inherit;
+}
+
+#osrsPlayerName {
+    flex: 1 1 200px;
+}
+
+.osrs-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 18px 0 0;
+}
+
+.osrs-stats div {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background-color: #fff;
+}
+
+.osrs-stats dt {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.osrs-stats dd {
+    margin: 4px 0 0;
+    font-weight: 600;
+}
+
+#dramaInput {
+    flex: 1 1 200px;
+}
+
+#dramaRatingInput {
+    flex: 0 1 150px;
+}
+
+button,
+.button {
+    display: inline-block;
+    padding: 10px 16px;
+    border: 1px solid var(--blue-dark);
+    border-radius: 6px;
+    background-color: var(--blue);
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+button:hover,
+.button:hover {
+    border-color: #3c5d7d;
+    background-color: var(--blue-dark);
+    color: #fff;
+}
+
+button:active,
+.button:active {
+    transform: translateY(1px);
+}
+
+ul {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background-color: #fff;
+}
+
+li:last-child {
+    margin-bottom: 0;
+}
+
+.rating-input {
+    width: 76px;
+    padding: 6px 8px;
+}
+
+.delete-button {
+    padding: 6px 10px;
+    border-color: #8498ad;
+    background-color: var(--blue-light);
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.delete-button:hover {
+    border-color: var(--blue-dark);
+    background-color: var(--blue);
+    color: #fff;
+}
+
+section:last-child p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
+footer {
+    padding: 22px 24px;
+    background-color: var(--blue);
+    color: #fff;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 26px 18px;
+    }
+
+    main {
+        width: min(100% - 24px, 960px);
+        margin: 20px auto;
+    }
+
+    section {
+        padding: 22px 18px;
+    }
+
+    .project {
+        padding: 18px;
+    }
+
+    #dramaRatingInput,
+    #addDramaButton {
+        flex: 1 1 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
