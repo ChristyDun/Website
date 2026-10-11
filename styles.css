@@ -124,6 +124,34 @@ input {
     font: inherit;
 }
 
+#osrsPlayerName {
+    flex: 1 1 200px;
+}
+
+.osrs-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 18px 0 0;
+}
+
+.osrs-stats div {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background-color: #fff;
+}
+
+.osrs-stats dt {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.osrs-stats dd {
+    margin: 4px 0 0;
+    font-weight: 600;
+}
+
 #dramaInput {
     flex: 1 1 200px;
 }

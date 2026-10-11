@@ -25,7 +25,156 @@ function getCookie(name) {
     return null;
 }
 
+const osrsBosses = [
+    'Abyssal Sire',
+    'Alchemical Hydra',
+    'Amoxliatl',
+    'Araxxor',
+    'Artio',
+    'Barrows Chests',
+    'Brutus',
+    'Bryophyta',
+    'Callisto',
+    "Calvar'ion",
+    'Cerberus',
+    'Chambers of Xeric',
+    'Chambers of Xeric: Challenge Mode',
+    'Chaos Elemental',
+    'Chaos Fanatic',
+    'Commander Zilyana',
+    'Corporeal Beast',
+    'Crazy Archaeologist',
+    'Dagannoth Prime',
+    'Dagannoth Rex',
+    'Dagannoth Supreme',
+    'Deranged Archaeologist',
+    'Doom of Mokhaiotl',
+    'Duke Sucellus',
+    'General Graardor',
+    'Giant Mole',
+    'Grotesque Guardians',
+    'Hespori',
+    'Kalphite Queen',
+    'King Black Dragon',
+    'Kraken',
+    "Kree'Arra",
+    "K'ril Tsutsaroth",
+    'Lunar Chests',
+    'Mad Angel',
+    'Maggot King',
+    'Mimic',
+    'Nex',
+    'Nightmare',
+    "Phosani's Nightmare",
+    'Obor',
+    'Phantom Muspah',
+    'Sarachnis',
+    'Scorpia',
+    'Scurrius',
+    'Shellbane Gryphon',
+    'Skotizo',
+    'Sol Heredit',
+    'Spindel',
+    'Tempoross',
+    'The Gauntlet',
+    'The Corrupted Gauntlet',
+    'The Hueycoatl',
+    'The Leviathan',
+    'The Royal Titans',
+    'The Whisperer',
+    'Theatre of Blood',
+    'Theatre of Blood: Hard Mode',
+    'Thermonuclear Smoke Devil',
+    'Tombs of Amascut',
+    'Tombs of Amascut: Expert Mode',
+    'TzKal-Zuk',
+    'TzTok-Jad',
+    'Vardorvis',
+    'Venenatis',
+    "Vet'ion",
+    'Vorkath',
+    'Wintertodt',
+    'Yama',
+    'Zalcano',
+    'Zulrah',
+];
+
 document.addEventListener('DOMContentLoaded', () => {
+    const osrsLookupForm = document.getElementById('osrsLookupForm');
+    const osrsPlayerName = document.getElementById('osrsPlayerName');
+    const osrsLookupStatus = document.getElementById('osrsLookupStatus');
+    const osrsLookupResults = document.getElementById('osrsLookupResults');
+
+    osrsLookupForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const playerName = osrsPlayerName.value.trim();
+        if (!playerName) {
+            return;
+        }
+
+        osrsLookupStatus.textContent = 'Loading player stats...';
+        osrsLookupResults.hidden = true;
+
+        try {
+            const url = new URL('https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws');
+            url.searchParams.set('player', playerName);
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Hiscores request failed (${response.status}).`);
+            }
+
+            const rows = (await response.text()).trim().split(/\r?\n/).map((line) =>
+                line.split(',').map(Number)
+            );
+            if (rows.length < 25 || !Number.isFinite(rows[0][1]) || rows[0][1] < 0) {
+                throw new Error('No hiscores data was returned for that player.');
+            }
+
+            const bossStartIndex = rows.length - osrsBosses.length;
+            if (bossStartIndex < 25) {
+                throw new Error('Hiscores response did not include the expected boss data.');
+            }
+            const bossKcs = rows
+                .slice(bossStartIndex)
+                .map((row, index) => ({
+                    name: osrsBosses[index],
+                    kc: row[1],
+                }))
+                .filter(({ kc }) => Number.isInteger(kc) && kc > 0);
+            const raidNames = new Set([
+                'Chambers of Xeric',
+                'Chambers of Xeric: Challenge Mode',
+                'Theatre of Blood',
+                'Theatre of Blood: Hard Mode',
+                'Tombs of Amascut',
+                'Tombs of Amascut: Expert Mode',
+            ]);
+            const raidKcs = bossKcs.filter(({ name }) => raidNames.has(name));
+            const otherBossKcs = bossKcs.filter(({ name }) => !raidNames.has(name));
+            const highestBoss = otherBossKcs.reduce((highest, current) =>
+                current.kc > (highest?.kc ?? 0) ? current : highest, null
+            );
+            const highestRaid = raidKcs.reduce((highest, current) =>
+                current.kc > (highest?.kc ?? 0) ? current : highest, null
+            );
+
+            document.getElementById('osrsResultName').textContent = playerName;
+            document.getElementById('osrsResultTotalLevel').textContent = rows[0][1].toLocaleString();
+            document.getElementById('osrsResultBoss').textContent = highestBoss
+                ? `${highestBoss.name}: ${highestBoss.kc.toLocaleString()}`
+                : 'No ranked boss kills';
+            document.getElementById('osrsResultRaid').textContent = highestRaid
+                ? `${highestRaid.name}: ${highestRaid.kc.toLocaleString()}`
+                : 'No ranked raid completions';
+            osrsLookupResults.hidden = false;
+            osrsLookupStatus.textContent = '';
+        } catch (error) {
+            osrsLookupStatus.textContent = error instanceof Error
+                ? error.message
+                : 'Unable to load hiscores data.';
+        }
+    });
+
     const dramaInput = document.getElementById('dramaInput');
     const dramaRatingInput = document.getElementById('dramaRatingInput');
     const addDramaButton = document.getElementById('addDramaButton');

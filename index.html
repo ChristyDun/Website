@@ -26,14 +26,37 @@
 				how an input will pass through such a automata. With a basic knowledge of computation knowing about lexical analysis,
 				which is the first phase of a compiler where it reads an input and regular expressions, which are the languages accepted by the automata.
 				Due to time limitations not all features were able to be implemented.
-                I recently revised the project and polished it to a better graphical working state.
+                I recently revised the project and polished it have a better graphical working function instead of using still jpeg images that I used in the original version.
                 </p>
                 <a href="C:\Users\chris\Documents\Folders\CV & Website\Website\NDFAutomaton.jar">Download Here</a>
             </div>
 			
             <div class="project">
-                <h3>API Feature and User</h3>
-                <p>A Project that fetches and Uses some API.</p>
+                <h3>API Lookup For Old School RuneScape Hiscores</h3>
+                <form id="osrsLookupForm" class="form-container">
+                    <label for="osrsPlayerName">OSRS player name</label>
+                    <input type="text" id="osrsPlayerName" name="player" placeholder="Enter a player name" required>
+                    <button type="submit">Look up player</button>
+                </form>
+                <p id="osrsLookupStatus" role="status" aria-live="polite"></p>
+                <dl id="osrsLookupResults" class="osrs-stats" hidden>
+                    <div>
+                        <dt>Player</dt>
+                        <dd id="osrsResultName"></dd>
+                    </div>
+                    <div>
+                        <dt>Total level</dt>
+                        <dd id="osrsResultTotalLevel"></dd>
+                    </div>
+                    <div>
+                        <dt>Highest boss KC</dt>
+                        <dd id="osrsResultBoss"></dd>
+                    </div>
+                    <div>
+                        <dt>Highest raid KC</dt>
+                        <dd id="osrsResultRaid"></dd>
+                    </div>
+                </dl>
             </div>
 			
 			<div class="project">
@@ -50,7 +73,7 @@
             <h2>Contact</h2>
             <p>
 				<a href="mailto:christydunlop96@gmail.com" class="button">Email Me</a>
-				<a href="https://github.com" class="button">GitHub</a>
+				<a href="https://github.com/ChristyDun" class="button">GitHub</a>
 			</p>
         </section>
     </main>
