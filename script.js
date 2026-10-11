@@ -49,9 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function render() {
         dramas.sort((a, b) => b.rating - a.rating);
         dramaList.innerHTML = '';
+
         dramas.forEach((drama, index) => {
             const li = document.createElement('li');
-            li.textContent = `${drama.name} - Rating: ${drama.rating}`;
+            li.innerHTML = 
+            `${drama.name} - Rating: <input type="number" class="rating-input" data-index="${index}" value="${drama.rating}" min="1" max="10"> <button class="delete-button" data-index="${index}">Delete</button>`;
             dramaList.appendChild(li);
         });
     }
@@ -62,7 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const rating = parseInt(dramaRatingInput.value);
 
         if (name && !isNaN(rating) && rating >= 1 && rating <= 10) {
-            dramas.push({ name, rating });
+            if (dramas.some(drama => drama.name.toLowerCase() === name.toLowerCase())) {
+                alert('This drama is already in the list.');
+                return;
+            }
+            else {
+                dramas.push({ name, rating });
+            }
             saveAndRenderDramas();
             dramaInput.value = '';
             dramaRatingInput.value = '5';
@@ -72,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }  
     });
 
-    listElement.addEventListener('click', (event) => {
+    dramaList.addEventListener('change', (event) => {
         if (event.target.classList.contains('rating-input')) {
-            const index = event.target.getAttribute('data-index');
+            const index = Number(event.target.getAttribute('data-index'));
             const newRating = parseInt(event.target.value);
-            if (!isNaN(newRating) && newRating >= 1 && newRating <= 10) {
+            if (Number.isInteger(index) && dramas[index] && !isNaN(newRating) && newRating >= 1 && newRating <= 10) {
                 dramas[index].rating = newRating;
                 saveAndRenderDramas();
             }
@@ -87,12 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    listElement.addEventListener('click', (event) => {
+    dramaList.addEventListener('click', (event) => {
         if (event.target.classList.contains('delete-button')) {
-            const index = event.target.getAttribute('data-index');
+            const index = Number(event.target.getAttribute('data-index'));
+            if (!Number.isInteger(index) || !dramas[index]) {
+                return;
+            }
             dramas.splice(index, 1);
             saveAndRenderDramas();
         }
     });
+
     render();
 }); 
