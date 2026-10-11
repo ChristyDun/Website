@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Christy Dunlop Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
@@ -23,20 +26,25 @@
 				how an input will pass through such a automata. With a basic knowledge of computation knowing about lexical analysis,
 				which is the first phase of a compiler where it reads an input and regular expressions, which are the languages accepted by the automata.
 				Due to time limitations not all features were able to be implemented.
-                I rescently revised the project and polished it to a better working state
+                I recently revised the project and polished it to a better graphical working state.
                 </p>
-                <a href="NDFAutomaton.jar">Download Here</a>
+                <a href="C:\Users\chris\Documents\Folders\CV & Website\Website\NDFAutomaton.jar">Download Here</a>
             </div>
 			
             <div class="project">
-                <h3>API feture and User</h3>
+                <h3>API Feature and User</h3>
                 <p>A Project that fetches and Uses some API.</p>
             </div>
 			
 			<div class="project">
-				<h3>Chinese Dramas</h3>
-				<p>A place to store what i've watched and some information about it</p>
-			</div>
+				<h3> Dramas Ranking List</h3>
+                <div class="form-container">
+                    <input type="text" placeholder="Drama Name" id="dramaInput">
+                    <input type="number" id="dramaRatingInput" placeholder="Rating (1-10)" min="1" max="10">
+                    <button id="addDramaButton">Add Drama</button>
+                </div>
+                <ul id="dramaList"></ul>
+            </div>
         </section>
         <section>
             <h2>Contact</h2>

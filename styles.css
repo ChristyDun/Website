@@ -55,19 +55,3 @@ footer {
     padding: 20px;
     text-align: center;
 }
-
-/* Media queries for responsiveness */
-@media screen and (max-width: 600px) {
-    header, main, footer {
-        padding: 10px;
-    }
-    h1 {
-        font-size: 24px;
-    }
-    h2 {
-        font-size: 20px;
-    }
-    .project {
-        padding: 10px;
-    }
-}
