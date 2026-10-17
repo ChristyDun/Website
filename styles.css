@@ -243,6 +243,18 @@ footer {
     text-align: center;
 }
 
+#quizQuestion {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-color: #fff;
+    color: var(--text);
+    font: inherit;
+    resize: none;
+}
+
 @media (max-width: 600px) {
     header {
         padding: 26px 18px;

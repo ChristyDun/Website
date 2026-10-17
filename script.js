@@ -25,165 +25,22 @@ function getCookie(name) {
     return null;
 }
 
-const osrsBosses = [
-    'Abyssal Sire',
-    'Alchemical Hydra',
-    'Amoxliatl',
-    'Araxxor',
-    'Artio',
-    'Barrows Chests',
-    'Brutus',
-    'Bryophyta',
-    'Callisto',
-    "Calvar'ion",
-    'Cerberus',
-    'Chambers of Xeric',
-    'Chambers of Xeric: Challenge Mode',
-    'Chaos Elemental',
-    'Chaos Fanatic',
-    'Commander Zilyana',
-    'Corporeal Beast',
-    'Crazy Archaeologist',
-    'Dagannoth Prime',
-    'Dagannoth Rex',
-    'Dagannoth Supreme',
-    'Deranged Archaeologist',
-    'Doom of Mokhaiotl',
-    'Duke Sucellus',
-    'General Graardor',
-    'Giant Mole',
-    'Grotesque Guardians',
-    'Hespori',
-    'Kalphite Queen',
-    'King Black Dragon',
-    'Kraken',
-    "Kree'Arra",
-    "K'ril Tsutsaroth",
-    'Lunar Chests',
-    'Mad Angel',
-    'Maggot King',
-    'Mimic',
-    'Nex',
-    'Nightmare',
-    "Phosani's Nightmare",
-    'Obor',
-    'Phantom Muspah',
-    'Sarachnis',
-    'Scorpia',
-    'Scurrius',
-    'Shellbane Gryphon',
-    'Skotizo',
-    'Sol Heredit',
-    'Spindel',
-    'Tempoross',
-    'The Gauntlet',
-    'The Corrupted Gauntlet',
-    'The Hueycoatl',
-    'The Leviathan',
-    'The Royal Titans',
-    'The Whisperer',
-    'Theatre of Blood',
-    'Theatre of Blood: Hard Mode',
-    'Thermonuclear Smoke Devil',
-    'Tombs of Amascut',
-    'Tombs of Amascut: Expert Mode',
-    'TzKal-Zuk',
-    'TzTok-Jad',
-    'Vardorvis',
-    'Venenatis',
-    "Vet'ion",
-    'Vorkath',
-    'Wintertodt',
-    'Yama',
-    'Zalcano',
-    'Zulrah',
+let quizQuestions = [
+    { quizQuestion: "How Many Members Are In Currently SEVENTEEN?", answer: "13" },
+    { quizQuestion: "How Many Members Are In Twice?", answer: "9" },
+    { quizQuestion: "How Many Members Are Currently In fromis_9?", answer: "5" },
+    { quizQuestion: "How Many Members Are In Currently tripleS?", answer: "24" },
 ];
 
-const osrsHiscoresWorkerUrl = '';
+let quizScore = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
-    const osrsLookupForm = document.getElementById('osrsLookupForm');
-    const osrsPlayerName = document.getElementById('osrsPlayerName');
-    const osrsLookupStatus = document.getElementById('osrsLookupStatus');
-    const osrsLookupResults = document.getElementById('osrsLookupResults');
-
-    osrsLookupForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const playerName = osrsPlayerName.value.trim();
-        if (!playerName) {
-            return;
-        }
-
-        osrsLookupStatus.textContent = 'Loading player stats...';
-        osrsLookupResults.hidden = true;
-
-        try {
-            if (!osrsHiscoresWorkerUrl) {
-                throw new Error('Configure the Cloudflare Worker URL in script.js before using the hiscores lookup.');
-            }
-            const url = new URL(osrsHiscoresWorkerUrl);
-            url.searchParams.set('player', playerName);
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Hiscores request failed (${response.status}).`);
-            }
-
-            const rows = (await response.text()).trim().split(/\r?\n/).map((line) =>
-                line.split(',').map(Number)
-            );
-            if (rows.length < 25 || !Number.isFinite(rows[0][1]) || rows[0][1] < 0) {
-                throw new Error('No hiscores data was returned for that player.');
-            }
-
-            const bossStartIndex = rows.length - osrsBosses.length;
-            if (bossStartIndex < 25) {
-                throw new Error('Hiscores response did not include the expected boss data.');
-            }
-            const bossKcs = rows
-                .slice(bossStartIndex)
-                .map((row, index) => ({
-                    name: osrsBosses[index],
-                    kc: row[1],
-                }))
-                .filter(({ kc }) => Number.isInteger(kc) && kc > 0);
-            const raidNames = new Set([
-                'Chambers of Xeric',
-                'Chambers of Xeric: Challenge Mode',
-                'Theatre of Blood',
-                'Theatre of Blood: Hard Mode',
-                'Tombs of Amascut',
-                'Tombs of Amascut: Expert Mode',
-            ]);
-            const raidKcs = bossKcs.filter(({ name }) => raidNames.has(name));
-            const otherBossKcs = bossKcs.filter(({ name }) => !raidNames.has(name));
-            const highestBoss = otherBossKcs.reduce((highest, current) =>
-                current.kc > (highest?.kc ?? 0) ? current : highest, null
-            );
-            const highestRaid = raidKcs.reduce((highest, current) =>
-                current.kc > (highest?.kc ?? 0) ? current : highest, null
-            );
-
-            document.getElementById('osrsResultName').textContent = playerName;
-            document.getElementById('osrsResultTotalLevel').textContent = rows[0][1].toLocaleString();
-            document.getElementById('osrsResultBoss').textContent = highestBoss
-                ? `${highestBoss.name}: ${highestBoss.kc.toLocaleString()}`
-                : 'No ranked boss kills';
-            document.getElementById('osrsResultRaid').textContent = highestRaid
-                ? `${highestRaid.name}: ${highestRaid.kc.toLocaleString()}`
-                : 'No ranked raid completions';
-            osrsLookupResults.hidden = false;
-            osrsLookupStatus.textContent = '';
-        } catch (error) {
-            osrsLookupStatus.textContent = error instanceof Error
-                ? error.message
-                : 'Unable to load hiscores data.';
-        }
-    });
 
     const dramaInput = document.getElementById('dramaInput');
     const dramaRatingInput = document.getElementById('dramaRatingInput');
     const addDramaButton = document.getElementById('addDramaButton');
     const dramaList = document.getElementById('dramaList');
+    const quizResult = 0;
 
     let dramas = getCookie('dramas') || [];
     if (!dramas || dramas.length === 0) {
@@ -210,8 +67,43 @@ document.addEventListener('DOMContentLoaded', () => {
             `${drama.name} - Rating: <input type="number" class="rating-input" data-index="${index}" value="${drama.rating}" min="1" max="10"> <button class="delete-button" data-index="${index}">Delete</button>`;
             dramaList.appendChild(li);
         });
+
+        quizQuestions.sort(() => Math.random() - 0.5);
+        document.getElementById('quizQuestion').value = quizQuestions[0].quizQuestion;
+    }
+
+    function updateQuizScore() {
+        document.getElementById('quizScore').textContent = quizScore + " / " + (quizQuestions.length + quizScore) +  " " + "Percentage: " + quizResult + "%" ;
+    }
+    function updateQuizQuestion() {
+        if (quizQuestions.length > 0) {
+        document.getElementById('quizQuestion').value = quizQuestions[0].quizQuestion;
+        } else {
+            document.getElementById('quizQuestion').value = "End Of Quiz!";
+            updateQuizScore();
+        }
     }
     
+    submitAnswerButton.addEventListener('click', () => {
+        const userAnswer = quizAnswerInput.value.trim();
+        const correctAnswer = quizQuestions[0].answer;
+
+        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+            quizScore++;
+            quizQuestions.splice(0, 1);
+            updateQuizQuestion();
+            if (quizQuestions.length === 0) {
+                quizResult = Math.round((quizScore / (quizScore + quizQuestions.length)) * 100);
+        } }
+
+        else {
+            quizQuestions.splice(0, 1);
+            updateQuizQuestion();
+            if (quizQuestions.length === 0) {
+                quizResult = Math.round((quizScore / (quizScore + quizQuestions.length)) * 100);
+        } }
+        quizAnswerInput.value = '';
+    });
 
     addDramaButton.addEventListener('click', () => {
         const name = dramaInput.value.trim();
