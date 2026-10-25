@@ -33,6 +33,7 @@ let quizQuestions = [
 ];
 
 let quizScore = 0;
+let quizLength = quizQuestions.length;
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -73,8 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateQuizScore() {
-        document.getElementById('quizScore').textContent = quizScore + " / " + (quizQuestions.length + quizScore) +  " " + "Percentage: " + quizResult + "%" ;
+        document.getElementById('quizScore').textContent = `Quiz Score: ${quizScore}` + "/" + quizLength;
     }
+
     function updateQuizQuestion() {
         if (quizQuestions.length > 0) {
         document.getElementById('quizQuestion').value = quizQuestions[0].quizQuestion;
@@ -92,16 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
             quizScore++;
             quizQuestions.splice(0, 1);
             updateQuizQuestion();
-            if (quizQuestions.length === 0) {
-                quizResult = Math.round((quizScore / (quizScore + quizQuestions.length)) * 100);
-        } }
+        }
 
         else {
             quizQuestions.splice(0, 1);
             updateQuizQuestion();
-            if (quizQuestions.length === 0) {
-                quizResult = Math.round((quizScore / (quizScore + quizQuestions.length)) * 100);
-        } }
+        }
         quizAnswerInput.value = '';
     });
 
